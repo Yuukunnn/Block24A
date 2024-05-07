@@ -6,14 +6,36 @@ const TODO = "REPLACE ME!!!";
  * @param {string} sentence - a space-separated string of words
  * @returns {boolean} whether `sentence` contains any of the words in `topics`
  */
-const isRelevant = TODO;
+const isRelevant = (topics, sentence) => {
+  let relevant = false;
+  const sentenceWordsArry = sentence.split(' ');
+  sentenceWordsArry.forEach((word) => {
+    if (topics.includes(word)) {
+      relevant = true;
+    } 
+  })
+  return relevant;
+};
 
 /**
  * @param {string[]} topics - an array of topic words
  * @returns {(sentence: string) => boolean} a function that takes a sentence
  *  and returns whether it is relevant to `topics`
  */
-const about = TODO;
+const about = (topics) => {
+  return (sentence) => {
+    let relevant = false;
+    const words = sentence.split(" ");
+    words.forEach((word) => {
+      if (topics.includes(word)) {
+        relevant = true;
+      }
+    })
+    return relevant;
+  }
+
+}
+
 
 /**
  * @param {(sentence: string) => boolean} criterion - a function that
@@ -21,14 +43,18 @@ const about = TODO;
  * @param {string[]} sentences - an array of space-separated strings of words
  * @returns {string[]} the subset of `sentences` for which `criterion` returns true
  */
-const getRelevantSentences = TODO;
+const getRelevantSentences = (criterion, sentences) => {
+  return sentences.filter(sentence => criterion(sentence))
+};
 
 /**
  * @param {string} str1 - the first string to compare
  * @param {string} str2 - the second string to compare
  * @returns {number} the absolute difference in length between `str1` and `str2`
  */
-const getDistanceByLength = TODO;
+const getDistanceByLength = (str1, str2) =>{
+  return Math.abs(str1.length - str2.length);
+};
 
 /**
  * @param {string} word - the original string
@@ -40,7 +66,18 @@ const getDistanceByLength = TODO;
  *  as calculated by `distanceFn`, unless that distance is strictly greater than
  *  the `threshold`, in which case the original `word` is returned.
  */
-const getClosestWord = TODO;
+const getClosestWord = (word, words, distanceFn, threshold) => {
+  let minDistance = Infinity;
+  let closestWord = word;
+  words.forEach(candidate => {
+    const distance = distanceFn(word, candidate);
+    if (distance < minDistance) {
+      minDistance = distance;
+      closestWord = candidate;
+    }
+  })
+  return minDistance <= threshold ? closestWord : word;
+};
 
 /**
  * @param {string} word - the original string
@@ -50,7 +87,18 @@ const getClosestWord = TODO;
  *  unless that distance is strictly greater than the `threshold`,
  *  in which case the original `word` is returned.
  */
-const getClosestWordByLength = TODO;
+const getClosestWordByLength = (word, words, threshold) => {
+  let minLengthDiff = Infinity;
+  let returnWord = word;
+  words.forEach((candidate) => {
+    const distance = Math.abs(candidate.length - word.length);
+    if (distance < minLengthDiff) {
+      minLengthDiff = distance;
+      returnWord = candidate;
+    } 
+  })
+  return minLengthDiff <= threshold ? returnWord : word;
+};
 
 /* === Simple Test Cases === */
 // The provided logs print the expected output first.
